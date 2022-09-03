@@ -110,6 +110,10 @@ class EmacsMac < Formula
     args << "--with-native-compilation" if build.with? "native-comp"
     args << "--with-xwidgets" if build.with? "xwidgets"
 
+    # Increase max file descriptors.
+    ENV.append "CFLAGS", "-DFD_SETSIZE=10000"
+    ENV.append "CFLAGS", "-DDARWIN_UNLIMITED_SELECT"
+
     if build.with? "native-comp"
       gcc_ver = Formula["gcc"].any_installed_version
       gcc_ver_major = gcc_ver.major
